@@ -1,0 +1,19 @@
+{
+  "name": "vibe-coding",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "gen": "node scripts/gen-sidebar.js",
+    "serve": "node scripts/gen-sidebar.js && docsify serve .",
+    "build": "node scripts/gen-sidebar.js && docsify generate ."
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "devDependencies": {
+    "docsify-cli": "^4.4.4",
+    "gray-matter": "^4.0.3"
+  }
+}
