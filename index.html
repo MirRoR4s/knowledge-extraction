@@ -26,6 +26,86 @@
     #dark-mode-toggle:hover {
       background: rgba(0,0,0,0.15);
     }
+
+    /* ===== Frontmatter 元数据条 ===== */
+    .frontmatter-meta {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 8px 12px;
+      padding: 10px 0;
+      margin-top: -4px;
+      margin-bottom: 20px;
+      border-bottom: 1px solid #e8e8e8;
+      font-size: 13px;
+      color: #666;
+    }
+
+    .fm-category {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      background: #ecf3fc;
+      color: #3a6ea5;
+      padding: 3px 12px;
+      border-radius: 12px;
+      font-weight: 500;
+      font-size: 12px;
+    }
+
+    .fm-tags {
+      display: inline-flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+
+    .fm-tag {
+      display: inline-block;
+      padding: 2px 10px;
+      border-radius: 10px;
+      background: #f0f0f0;
+      color: #666;
+      font-size: 12px;
+      line-height: 1.6;
+      transition: background 0.2s, color 0.2s;
+    }
+
+    .fm-tag:hover {
+      background: #42b983;
+      color: #fff;
+    }
+
+    .fm-date {
+      margin-left: auto;
+      color: #999;
+      font-size: 12px;
+      white-space: nowrap;
+    }
+
+    /* 深色模式 */
+    [data-theme="dark"] .frontmatter-meta {
+      border-bottom-color: rgba(255,255,255,0.1);
+      color: #999;
+    }
+
+    [data-theme="dark"] .fm-category {
+      background: rgba(255,255,255,0.08);
+      color: #bbb;
+    }
+
+    [data-theme="dark"] .fm-tag {
+      background: rgba(255,255,255,0.08);
+      color: #aaa;
+    }
+
+    [data-theme="dark"] .fm-tag:hover {
+      background: #42b983;
+      color: #fff;
+    }
+
+    [data-theme="dark"] .fm-date {
+      color: #777;
+    }
   </style>
 </head>
 <body>
@@ -41,7 +121,65 @@
         placeholder: '搜索',
         noData: '无结果',
         paths: 'auto'
-      }
+      },
+      plugins: [
+        function (hook, vm) {
+          hook.beforeEach(function (content) {
+            var match = content.match(/^---\s*\n([\s\S]*?)\n---\s*\n?/);
+            if (!match) { vm.__frontmatter = null; return content; }
+
+            var fm = {};
+            var lines = match[1].split('\n');
+            for (var i = 0; i < lines.length; i++) {
+              var line = lines[i];
+              var ci = line.indexOf(':');
+              if (ci === -1) continue;
+              var key = line.slice(0, ci).trim();
+              var val = line.slice(ci + 1).trim();
+              if (key === 'tags') {
+                fm.tags = val.replace(/^\[|\]$/g, '').split(',').map(function (t) { return t.trim(); }).filter(Boolean);
+              } else {
+                fm[key] = val;
+              }
+            }
+            vm.__frontmatter = fm;
+            return content.slice(match[0].length);
+          });
+
+          hook.doneEach(function () {
+            var fm = vm.__frontmatter;
+            if (!fm) return;
+
+            var section = document.querySelector('.markdown-section');
+            if (!section) return;
+            var h1 = section.querySelector('h1');
+            if (!h1) return;
+
+            if (h1.nextElementSibling && h1.nextElementSibling.classList.contains('frontmatter-meta')) return;
+
+            var meta = document.createElement('div');
+            meta.className = 'frontmatter-meta';
+
+            var parts = [];
+            if (fm.category) {
+              parts.push('<span class="fm-category">📂 ' + fm.category + '</span>');
+            }
+            if (fm.tags && fm.tags.length) {
+              var t = '<span class="fm-tags">';
+              for (var i = 0; i < fm.tags.length; i++) {
+                t += '<span class="fm-tag">' + fm.tags[i] + '</span>';
+              }
+              t += '</span>';
+              parts.push(t);
+            }
+            if (fm.date) {
+              parts.push('<span class="fm-date">📅 ' + fm.date + '</span>');
+            }
+            meta.innerHTML = parts.join('');
+            h1.insertAdjacentElement('afterend', meta);
+          });
+        }
+      ]
     }
   </script>
   <script src="//cdn.jsdelivr.net/npm/docsify@4/lib/docsify.min.js"></script>
@@ -50,6 +188,7 @@
     (function() {
       var link = document.getElementById('theme-link');
       var btn = document.getElementById('dark-mode-toggle');
+      var html = document.documentElement;
       var STORAGE_KEY = 'knowledge-theme';
 
       function setTheme(theme) {
@@ -57,9 +196,12 @@
         link.href = isDark
           ? '//cdn.jsdelivr.net/npm/docsify@4/lib/themes/dark.css'
           : '//cdn.jsdelivr.net/npm/docsify@4/lib/themes/vue.css';
+        html.setAttribute('data-theme', isDark ? 'dark' : 'light');
         btn.textContent = isDark ? '☀️' : '🌙';
         localStorage.setItem(STORAGE_KEY, theme);
       }
+
+      setTheme('light');
 
       var saved = localStorage.getItem(STORAGE_KEY);
       if (saved === 'dark') setTheme('dark');
