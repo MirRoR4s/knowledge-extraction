@@ -106,9 +106,73 @@
     [data-theme="dark"] .fm-date {
       color: #777;
     }
+
+    /* ===== Sidebar 折叠 ===== */
+    .sidebar-toggle-btn {
+      position: fixed;
+      left: 300px;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      z-index: 100;
+      width: 26px;
+      height: 26px;
+      border: 1px solid #ddd;
+      border-radius: 50%;
+      background: #fff;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px;
+      color: #999;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      transition: left 0.3s ease, background 0.2s;
+      padding: 0;
+      line-height: 1;
+      user-select: none;
+    }
+    .sidebar-toggle-btn:hover {
+      background: #f0f0f0;
+      color: #333;
+    }
+
+    body.sidebar-collapsed .sidebar-toggle-btn {
+      left: 12px;
+    }
+
+    .sidebar {
+      transition: transform 0.3s ease;
+    }
+    .content {
+      transition: left 0.3s ease;
+    }
+    body.sidebar-collapsed .sidebar {
+      transform: translateX(-300px);
+    }
+    body.sidebar-collapsed .content {
+      left: 0;
+    }
+
+    [data-theme="dark"] .sidebar-toggle-btn {
+      background: #2d2d2d;
+      border-color: #444;
+      color: #999;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.4);
+    }
+    [data-theme="dark"] .sidebar-toggle-btn:hover {
+      background: #3d3d3d;
+      color: #ddd;
+    }
+
+    @media (max-width: 768px) {
+      .sidebar-toggle-btn {
+        display: none;
+      }
+    }
   </style>
 </head>
 <body>
+  <button id="sidebar-toggle-btn" class="sidebar-toggle-btn" title="折叠/展开侧边栏">◀</button>
   <button id="dark-mode-toggle" title="切换深色/浅色模式">🌙</button>
   <div id="app">Loading...</div>
   <script>
@@ -209,6 +273,29 @@
       btn.addEventListener('click', function() {
         var isDark = link.href.includes('dark');
         setTheme(isDark ? 'light' : 'dark');
+      });
+    })();
+  </script>
+  <script>
+    (function() {
+      var btn = document.getElementById('sidebar-toggle-btn');
+      var KEY = 'knowledge-sidebar-collapsed';
+
+      function setCollapsed(collapsed) {
+        if (collapsed) {
+          document.body.classList.add('sidebar-collapsed');
+          btn.textContent = '▶';
+        } else {
+          document.body.classList.remove('sidebar-collapsed');
+          btn.textContent = '◀';
+        }
+        localStorage.setItem(KEY, collapsed ? '1' : '0');
+      }
+
+      if (localStorage.getItem(KEY) === '1') setCollapsed(true);
+
+      btn.addEventListener('click', function() {
+        setCollapsed(!document.body.classList.contains('sidebar-collapsed'));
       });
     })();
   </script>
