@@ -5,7 +5,7 @@ tags: [Claude Code, 教程, CLI, Node.js]
 date: 2026-07-01
 ---
 
-# Vibe Coding 实战教程：用 Claude Code 构建你的第一个应用
+# [Vibe Coding 实战教程：用 Claude Code 构建你的第一个应用](https://roadmap.sh/vibe-coding/tutorial)
 
 > 原文：<https://roadmap.sh/vibe-coding/tutorial> — 预计跟随操作耗时 30-45 分钟。
 
