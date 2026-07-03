@@ -7,8 +7,6 @@ date: 2026-07-01
 
 # [Vibe Coding 实战教程：用 Claude Code 构建你的第一个应用](https://roadmap.sh/vibe-coding/tutorial)
 
-> 原文：<https://roadmap.sh/vibe-coding/tutorial> — 预计跟随操作耗时 30-45 分钟。
-
 ## 核心论点
 
 1. **从"AI 当副手"到"AI 做主程"的工作范式变革。** 在 AI 编程工具面前，传统的逐行手写代码逐步被自然语言描述需求的"氛围编程（Vibe Coding）"取代。本文通过一个真实 CLI 任务管理器的完整构建过程，展示如何用 Claude Code 实现"描述即交付"的工作流。
