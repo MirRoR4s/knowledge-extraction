@@ -6,9 +6,7 @@ date: 2025-03-06
 order: 1
 ---
 
-# 什么是生成式AI？理解其价值与原理
-
-> 原文：[What is Generative AI? Understanding Its Benefits](https://learnprompting.org/docs/basics/generative_ai)
+# [什么是生成式AI？理解其价值与原理](https://learnprompting.org/docs/basics/generative_ai)
 
 ## 核心论点
 
