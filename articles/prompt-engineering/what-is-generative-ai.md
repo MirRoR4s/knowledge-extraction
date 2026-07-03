@@ -1,6 +1,5 @@
 ---
 title: 什么是生成式AI？理解其价值与原理
-category: prompt-engineering
 tags: [生成式AI, 机器学习, AI入门, 提示工程]
 date: 2025-03-06
 order: 1

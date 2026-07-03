@@ -1,8 +1,12 @@
 ---
 title: 2026 年 10 款最佳氛围编程工具评选
-category: vibe-coding
-tags: [氛围编程, AI工具, 对比评测, 2026]
+tags:
+  - 氛围编程
+  - AI工具
+  - 对比评测
+  - 2026
 date: 2026-07-01
+order: 1
 ---
 
 # [2026 年 10 款最佳氛围编程工具评选](https://roadmap.sh/vibe-coding/best-tools)

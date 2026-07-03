@@ -26,6 +26,7 @@ function scanArticles() {
       if (entry.isDirectory()) {
         walk(fullPath);
       } else if (entry.name.endsWith('.md')) {
+        const stat = fs.statSync(fullPath);
         const content = fs.readFileSync(fullPath, 'utf-8');
         const { data } = matter(content);
         const relativePath = path.relative(path.join(__dirname, '..'), fullPath);
@@ -35,7 +36,9 @@ function scanArticles() {
           tags: data.tags || [],
           category: data.category || category,
           order: data.order,
-          path: relativePath
+          path: relativePath,
+          fullPath: fullPath,
+          birthtime: stat.birthtimeMs || stat.ctimeMs
         });
       }
     }
@@ -53,6 +56,34 @@ function groupByCategory(articles) {
     groups[cat].push(article);
   }
   return groups;
+}
+
+function assignAndWriteOrders(articles) {
+  const catGroups = groupByCategory(articles);
+
+  for (const [, arts] of Object.entries(catGroups)) {
+    let maxOrder = 0;
+    const unorderedArts = arts.filter(a => {
+      if (a.order != null) {
+        maxOrder = Math.max(maxOrder, a.order);
+        return false;
+      }
+      return true;
+    });
+
+    unorderedArts.sort((a, b) => a.birthtime - b.birthtime);
+
+    unorderedArts.forEach(art => {
+      const newOrder = ++maxOrder;
+      const content = fs.readFileSync(art.fullPath, 'utf-8');
+      const parsed = matter(content);
+      parsed.data.order = newOrder;
+      const newContent = matter.stringify(parsed.content, parsed.data);
+      fs.writeFileSync(art.fullPath, newContent, 'utf-8');
+      console.log(`  Assigned order: ${art.fullPath} -> ${newOrder}`);
+      art.order = newOrder;
+    });
+  }
 }
 
 function generateSidebar(articles) {
@@ -79,6 +110,8 @@ function generateSidebar(articles) {
 function main() {
   const articles = scanArticles();
   console.log(`Found ${articles.length} articles`);
+
+  assignAndWriteOrders(articles);
 
   const sidebar = generateSidebar(articles);
   fs.writeFileSync(SIDEBAR_PATH, sidebar, 'utf-8');

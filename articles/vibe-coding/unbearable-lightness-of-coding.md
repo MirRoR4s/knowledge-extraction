@@ -1,8 +1,12 @@
 ---
 title: 氛围编程的不可承受之轻
-category: vibe-coding
-tags: [vibe-coding, ai-coding-assistants, rag, developer-experience]
+tags:
+  - vibe-coding
+  - ai-coding-assistants
+  - rag
+  - developer-experience
 date: 2026-01-29
+order: 5
 ---
 
 # [氛围编程的不可承受之轻](https://towardsdatascience.com/the-unbearable-lightness-of-coding/?utm_source=roadmap&utm_medium=Referral&utm_campaign=TDS+roadmap+integration)

@@ -1,8 +1,12 @@
 ---
 title: 氛围编程最佳实践：如何获得一致结果
-category: vibe-coding
-tags: [Vibe Coding, 最佳实践, 上下文管理, 安全]
+tags:
+  - Vibe Coding
+  - 最佳实践
+  - 上下文管理
+  - 安全
 date: 2026-07-01
+order: 3
 ---
 
 # [氛围编程最佳实践：如何获得一致结果](https://roadmap.sh/vibe-coding/best-practices)

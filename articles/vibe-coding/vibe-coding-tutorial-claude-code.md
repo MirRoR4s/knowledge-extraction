@@ -1,8 +1,12 @@
 ---
 title: Vibe Coding 实战教程：用 Claude Code 构建你的第一个应用
-category: vibe-coding
-tags: [Claude Code, 教程, CLI, Node.js]
+tags:
+  - Claude Code
+  - 教程
+  - CLI
+  - Node.js
 date: 2026-07-01
+order: 4
 ---
 
 # [Vibe Coding 实战教程：用 Claude Code 构建你的第一个应用](https://roadmap.sh/vibe-coding/tutorial)

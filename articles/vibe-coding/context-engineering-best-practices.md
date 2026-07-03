@@ -1,8 +1,10 @@
 ---
 title: AI 驱动开发团队的上下文工程最佳实践（2026）
-category: vibe-coding
-tags: [Context, 上下文工程]
+tags:
+  - Context
+  - 上下文工程
 date: 2026-06-30
+order: 2
 ---
 
 # [AI 驱动开发团队的上下文工程最佳实践（2026）](https://packmind.com/context-engineering-ai-coding/context-engineering-best-practices/#Maintaining_context_quality_over_time)
